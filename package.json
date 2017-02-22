@@ -5,6 +5,7 @@
     "main": "dist/index.js",
     "scripts": {
         "prebuild": "rm -rf dist && mkdir dist",
+        "postinstall": "git submodule init && git submodule update",
         "build": "babel src/index.js -o dist/index.js",
         "test": "mocha src/index.test.js -w --compilers js:babel/register"
     },
