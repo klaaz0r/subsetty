@@ -1,11 +1,17 @@
-import app from './index';
+import subset from './index'
+import fs from 'fs'
 
-describe('example tests', function() {
+describe('subset tests', function() {
   describe('all', function() {
-    it('should work', function(cb) {
-      cb()
+    it('from file', function(cb) {
+      subset.fromFile('fonts/opensans.ttf', 'hello world')
+        .then(font => cb())
     })
 
-
+    it('from buffer', function(cb) {
+      const buffer = fs.readFileSync('fonts/opensans.ttf')
+      subset.fromBuffer(buffer, 'hello world')
+        .then(font => cb())
+    })
   })
 })
