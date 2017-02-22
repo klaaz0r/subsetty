@@ -3,3 +3,4 @@ coverage
 npm-debug.log
 .tmp
 fonts/*.subset.ttf
+.DS_Store
