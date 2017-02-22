@@ -20,7 +20,7 @@ var _fs = require('fs');
 
 var _fs2 = _interopRequireDefault(_fs);
 
-var FONTTOOLS = 'fonttools/Lib/fontTools/subset';
+var FONTTOOLS = __dirname + '/../fonttools/Lib/fontTools/subset';
 var TMP = __dirname + '/.tmp';
 
 function fromFile(fontPath, subset) {

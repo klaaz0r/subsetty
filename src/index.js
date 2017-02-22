@@ -5,7 +5,7 @@ import { uniq, join, forEach } from 'ramda'
 import path from 'path'
 import fs from 'fs'
 
-const FONTTOOLS = 'fonttools/Lib/fontTools/subset'
+const FONTTOOLS = `${__dirname}/../fonttools/Lib/fontTools/subset`
 const TMP = `${__dirname}/.tmp`
 
 function fromFile(fontPath, subset) {
