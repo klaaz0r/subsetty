@@ -21,22 +21,21 @@ var _fs = require('fs');
 var _fs2 = _interopRequireDefault(_fs);
 
 var FONTTOOLS = 'fonttools/Lib/fontTools/subset';
+var TMP = __dirname + '/.tmp';
 
 function fromFile(fontPath, subset) {
   return subsetFont(fontPath, subset);
 }
 
 function fromBuffer(fontBuffer, subset) {
-
   try {
-    _fs2['default'].mkdirSync('.tmp');
+    _fs2['default'].mkdirSync(TMP);
   } catch (e) {
     //tmp folder already exsists
   }
 
   var cleanUp = [];
-
-  var fontPath = '.tmp/' + (0, _nodeUuid.v4)() + '.ttf';
+  var fontPath = TMP + '/' + (0, _nodeUuid.v4)() + '.ttf';
   _fs2['default'].writeFileSync(fontPath, fontBuffer);
 
   cleanUp.push(fontPath);
@@ -60,7 +59,7 @@ function subsetFont(fontPath, subset) {
     process.stdout.on('close', function () {
       var fontName = _path2['default'].basename(fontPath, '.ttf');
       var fontDir = _path2['default'].dirname(fontPath);
-      resolve(fontDir + '/' + fontName + '.subset.ttf');
+      resolve(TMP + '/' + fontName + '.subset.ttf');
     });
 
     process.stdout.on('error', function (err) {
