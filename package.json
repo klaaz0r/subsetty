@@ -1,6 +1,6 @@
 {
   "name": "subsetty",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "subset fonts in node with fonttools",
   "main": "dist/index.js",
   "scripts": {

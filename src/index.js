@@ -6,22 +6,21 @@ import path from 'path'
 import fs from 'fs'
 
 const FONTTOOLS = 'fonttools/Lib/fontTools/subset'
+const TMP = `${__dirname}/.tmp`
 
 function fromFile(fontPath, subset) {
   return subsetFont(fontPath, subset)
 }
 
 function fromBuffer(fontBuffer, subset) {
-
   try {
-    fs.mkdirSync('.tmp')
+    fs.mkdirSync(TMP)
   } catch (e) {
     //tmp folder already exsists
   }
 
   let cleanUp = []
-
-  const fontPath = `.tmp/${uuid()}.ttf`
+  const fontPath =  `${TMP}/${uuid()}.ttf`
   fs.writeFileSync(fontPath, fontBuffer)
 
   cleanUp.push(fontPath)
@@ -46,7 +45,7 @@ function subsetFont(fontPath, subset) {
     process.stdout.on('close', () => {
       const fontName = path.basename(fontPath, '.ttf')
       const fontDir = path.dirname(fontPath)
-      resolve(`${fontDir}/${fontName}.subset.ttf`)
+      resolve(`${TMP}/${fontName}.subset.ttf`)
     })
 
     process.stdout.on('error', (err) => {
