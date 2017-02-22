@@ -1,23 +1,21 @@
 {
-    "name": "example_modules",
+    "name": "subsetty",
     "version": "0.0.0",
-    "description": "start a node module",
+    "description": "subset fonts in node with fonttools",
     "main": "dist/index.js",
     "scripts": {
         "prebuild": "rm -rf dist && mkdir dist",
         "build": "babel src/index.js -o dist/index.js",
-        "commit": "git-cz",
-        "test": "mocha src/index.test.js -w --compilers js:babel/register",
-        "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+        "test": "mocha src/index.test.js -w --compilers js:babel/register"
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/kentcdodds/starwars-names.git"
+        "url": "https://github.com/klaaz0r/subsetty.git"
     },
     "keywords": [
-        "random",
-        "star",
-        "wars"
+        "subset",
+        "fonts",
+        "fonttools"
     ],
     "author": "klaaz0r",
     "license": "MIT",
