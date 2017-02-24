@@ -1,23 +1,26 @@
-import subset from './index'
+import subsetty from './index'
 import fs from 'fs'
+import { expect } from 'chai'
 
-describe('subset tests', function() {
-  describe('all', function() {
-    it('from file', function(cb) {
-      subset.fromFile('fonts/opensans.ttf', 'hello world')
-        .then(font => {
-          console.log('done', font);
-          cb()
-        })
+const text = `
+  Hello world! how are you doing? I am doing
+  great!
+  are you very fat..?
+  this is some price € 12.00;-
+  `
+
+describe('font testing', function() {
+  describe('all tests', function() {
+
+    it('create subset from font buffer', function(cb) {
+      subsetty.subset(fs.readFileSync('fonts/opensans.ttf'), text)
+        .then(font => cb())
     })
 
-    it('from buffer', function(cb) {
-      const buffer = fs.readFileSync('fonts/opensans.ttf')
-      subset.fromBuffer(buffer, 'hello world')
-        .then(font => {
-          console.log('done', font);
-          cb()
-        })
-    })
+    it('convert font to woff', function(cb) {
+      subsetty.toWoff(fs.readFileSync('fonts/opensans.ttf'))
+        .then(font => cb())
+    }).timeout(6000)
+
   })
 })
