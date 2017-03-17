@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rm -rf dist && mkdir dist",
+    "postinstall": "cd fonttools && pip install -e .",
     "build": "babel src/index.js -o dist/index.js",
     "test": "DEBUG_SUBSETTY=10 mocha src/index.test.js -w --compilers js:babel/register | bunyan"
   },

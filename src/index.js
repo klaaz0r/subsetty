@@ -91,7 +91,6 @@ function subsetFont(fontPath, subset) {
       logger.error('err subset', { err })
       return reject(err)
     })
-
   })
 }
 
