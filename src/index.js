@@ -11,10 +11,11 @@ import Python from 'python-shell'
 const level = process.env.DEBUG_SUBSETTY ? parseInt(process.env.DEBUG_SUBSETTY) : 60
 const logger = bunyan.createLogger({ name: 'subsetty', level });
 
+const scriptPath = __dirname.replace('dist', '').replace('src', '') + 'scripts'
 
 function subset(fontPath, text) {
   return new Promise(function(resolve, reject) {
-    Python.run('subset.py', { scriptPath: process.cwd() + '/scripts', args: [fontPath, text] }, (err, results) => {
+    Python.run('subset.py', { scriptPath, args: [fontPath, text] }, (err, results) => {
       if (err) {
         logger.error({ err }, 'error subsetting font')
         return reject(err)
@@ -28,7 +29,7 @@ function subset(fontPath, text) {
 
 function convert(fontPath, fontType) {
   return new Promise(function(resolve, reject) {
-    Python.run('convert.py', { scriptPath: process.cwd() + '/scripts', args: [fontPath, fontType] }, (err, results) => {
+    Python.run('convert.py', { scriptPath, args: [fontPath, fontType] }, (err, results) => {
       if (err) {
         logger.error({ err }, 'error subsetting font')
         return reject(err)

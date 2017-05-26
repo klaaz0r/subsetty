@@ -5,7 +5,7 @@ import os
 import sys
 
 def subsetFont(fontPath, subset):
-    tmpOutputFontName = os.getcwd() + "/tmp/" + str(uuid.uuid4()) + ".woff"
+    tmpOutputFontName = os.path.dirname(os.path.abspath( __file__ )) + "/tmp/" + str(uuid.uuid4()) + ".woff"
 
     font = TTFont(fontPath)
 
@@ -22,7 +22,7 @@ def subsetFont(fontPath, subset):
     save_font(font, tmpOutputFontName, options)
     subsettedFont = 'data:;base64,' + open(tmpOutputFontName, "rb").read().encode("base64")
 
-    # cleanUp([tmpOutputFontName])
+    cleanUp([tmpOutputFontName])
 
     print subsettedFont.replace('\n', '')
 

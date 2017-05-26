@@ -19,7 +19,7 @@ REVERSE_DIRECTION = True
 
 def convertFont(fontPath, fontType):
     options = Options()
-
+    
     tmpOutputTtf = tmpFileName(".ttf")
     tmpOutputWoff = tmpFileName(".woff")
 
@@ -47,7 +47,7 @@ def convertFont(fontPath, fontType):
     woffBase64 = "data:;base64," + toBase64(tmpOutputWoff)
 
     #cleanup files
-    # cleanUp([tmpOutputWoff, tmpOutputTtf])
+    cleanUp([tmpOutputWoff, tmpOutputTtf])
     print woffBase64.replace("\n", "")
     print ttfBase64.replace("\n", "")
 
@@ -106,7 +106,7 @@ def toBase64(filePath):
 
 # creates a tmp file name with uuid
 def tmpFileName(extension):
-    return os.getcwd() + "/tmp/" + str(uuid.uuid4()) + extension
+    return os.path.dirname(os.path.abspath( __file__ )) + "/tmp/" + str(uuid.uuid4()) + extension
 
 def main(argv):
     convertFont(str(sys.argv[1]), str(sys.argv[2]))

@@ -32,9 +32,11 @@ var _pythonShell2 = _interopRequireDefault(_pythonShell);
 var level = process.env.DEBUG_SUBSETTY ? parseInt(process.env.DEBUG_SUBSETTY) : 60;
 var logger = _bunyan2['default'].createLogger({ name: 'subsetty', level: level });
 
+var scriptPath = __dirname.replace('dist', '').replace('src', '') + 'scripts';
+
 function subset(fontPath, text) {
   return new _bluebird2['default'](function (resolve, reject) {
-    _pythonShell2['default'].run('scripts/subset.py', { args: [fontPath, text] }, function (err, results) {
+    _pythonShell2['default'].run('subset.py', { scriptPath: scriptPath, args: [fontPath, text] }, function (err, results) {
       if (err) {
         logger.error({ err: err }, 'error subsetting font');
         return reject(err);
@@ -48,7 +50,7 @@ function subset(fontPath, text) {
 
 function convert(fontPath, fontType) {
   return new _bluebird2['default'](function (resolve, reject) {
-    _pythonShell2['default'].run('scripts/convert.py', { args: [fontPath, fontType] }, function (err, results) {
+    _pythonShell2['default'].run('convert.py', { scriptPath: scriptPath, args: [fontPath, fontType] }, function (err, results) {
       if (err) {
         logger.error({ err: err }, 'error subsetting font');
         return reject(err);
