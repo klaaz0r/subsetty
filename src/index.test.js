@@ -1,4 +1,4 @@
-import subsetty from './index'
+import subsetty from '../dist/index.js'
 import fs from 'fs'
 import { expect } from 'chai'
 
@@ -13,14 +13,15 @@ describe('font testing', function() {
   describe('all tests', function() {
 
     it('create subset from font buffer', function(cb) {
-      subsetty.subset(fs.readFileSync('fonts/opensans.ttf'), text)
+      subsetty.subset('fonts/opensans.ttf', text)
         .then(font => cb())
     })
 
     it('convert font to woff', function(cb) {
-      subsetty.toWoff(fs.readFileSync('fonts/opensans.ttf'))
-        .then(font => cb())
-    }).timeout(6000)
+        subsetty.convert('fonts/opensans.ttf', 'ttf')
+          .then(font => cb())
+      })
+      .timeout(6000)
 
   })
 })

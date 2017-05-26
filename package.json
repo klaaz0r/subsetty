@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rm -rf dist && mkdir dist",
-    "postinstall": "cd fonttools && pip install -e .",
+    "postinstall": "mkdir -p tmp && pip install -r requirements.txt",
     "build": "babel src/index.js -o dist/index.js",
     "test": "DEBUG_SUBSETTY=10 mocha src/index.test.js -w --compilers js:babel/register | bunyan"
   },
@@ -28,6 +28,7 @@
     "bluebird": "^3.4.7",
     "bunyan": "^1.8.5",
     "node-uuid": "^1.4.7",
+    "python-shell": "^0.4.0",
     "ramda": "^0.23.0"
   },
   "devDependencies": {

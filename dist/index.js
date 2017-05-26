@@ -24,91 +24,41 @@ var _bunyan = require('bunyan');
 
 var _bunyan2 = _interopRequireDefault(_bunyan);
 
+var _pythonShell = require('python-shell');
+
+var _pythonShell2 = _interopRequireDefault(_pythonShell);
+
 //logger
 var level = process.env.DEBUG_SUBSETTY ? parseInt(process.env.DEBUG_SUBSETTY) : 60;
 var logger = _bunyan2['default'].createLogger({ name: 'subsetty', level: level });
 
-//paths
-var FONTTOOLS = __dirname + '/../fonttools/Lib/fontTools/subset';
-var TTX = __dirname + '/../fonttools/Lib/fontTools/ttx.py';
-var TMP = __dirname + '/.tmp';
-
-function subset(fontBuffer, subset) {
-  logger.trace('creating subset');
-  try {
-    _fs2['default'].mkdirSync(TMP);
-  } catch (e) {
-    logger.info('tmp folder already exsists');
-  }
-
-  var cleanUp = [];
-  var fontPath = TMP + '/' + (0, _nodeUuid.v4)() + '.ttf';
-  _fs2['default'].writeFileSync(fontPath, fontBuffer);
-
-  cleanUp.push(fontPath);
-
-  return subsetFont(fontPath, subset).then(function (newFont) {
-    cleanUp.push(newFont);
-    return _fs2['default'].readFileSync(newFont);
-  })['finally'](function () {
-    logger.trace('cleanup files', cleanUp);
-    (0, _ramda.forEach)(function (font) {
-      return _fs2['default'].unlink(font);
-    }, cleanUp);
-  })['catch'](function (err) {
-    logger.error('error subsetting from buffer', { err: err });
-    return new Error('failed to subset font');
-  });
-}
-
-function toWoff(fontBuffer) {
-  logger.info('converting font');
-
-  var fontName = (0, _nodeUuid.v4)();
-  var fontPath = TMP + '/' + fontName + '.ttf';
-  _fs2['default'].writeFileSync(fontPath, fontBuffer);
-
-  logger.trace('input path', fontPath);
-
-  var cwd = 'python ' + TTX + ' ' + fontPath + ' && python ' + TTX + ' --flavor="woff" ' + TMP + '/' + fontName + '.ttx';
-  var cleanUp = [TMP + '/' + fontName + '.ttf', TMP + '/' + fontName + '.woff', TMP + '/' + fontName + '.ttx'];
-
+function subset(fontPath, text) {
   return new _bluebird2['default'](function (resolve, reject) {
-    return (0, _child_process.exec)(cwd, function (err, data) {
+    _pythonShell2['default'].run('./scripts/subset.py', { args: [fontPath, text] }, function (err, results) {
       if (err) {
+        logger.error({ err: err }, 'error subsetting font');
         return reject(err);
+      } else {
+        logger.debug({ base64: results[0] }, 'got result from python');
+        resolve(results[0]);
       }
-      resolve(_fs2['default'].readFileSync(TMP + '/' + fontName + '.woff'));
     });
-  })['finally'](function () {
-    logger.trace('cleanup files', cleanUp);
-    (0, _ramda.forEach)(function (font) {
-      return _fs2['default'].unlink(font);
-    }, cleanUp);
-  })['catch'](function (err) {
-    logger.error('error converting font', { err: err });
-    return new Error('failed to convert font');
   });
 }
 
-function subsetFont(fontPath, subset) {
+function convert(fontPath, fontType) {
   return new _bluebird2['default'](function (resolve, reject) {
-    var cleanSubset = (0, _ramda.join)('', (0, _ramda.uniq)(subset));
-    logger.info('font subset', { cleanSubset: cleanSubset });
-    var subsetFlag = '--text="' + cleanSubset + '"';
-    var process = (0, _child_process.spawn)('python', [FONTTOOLS, fontPath, subsetFlag]);
-
-    process.stdout.on('close', function () {
-      var fontName = _path2['default'].basename(fontPath, '.ttf');
-      var fontDir = _path2['default'].dirname(fontPath);
-      resolve(TMP + '/' + fontName + '.subset.ttf');
-    });
-
-    process.stdout.on('error', function (err) {
-      logger.error('err subset', { err: err });
-      return reject(err);
+    _pythonShell2['default'].run('./scripts/convert.py', { args: [fontPath, fontType] }, function (err, results) {
+      if (err) {
+        logger.error({ err: err }, 'error subsetting font');
+        return reject(err);
+      } else {
+        console.log(results);
+        logger.debug({ base64: results[0] }, 'got result from python');
+        resolve(results[0]);
+      }
     });
   });
 }
 
-module.exports = { subset: subset, toWoff: toWoff };
+module.exports = { subset: subset, convert: convert };
