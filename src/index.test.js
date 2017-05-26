@@ -1,4 +1,4 @@
-import subsetty from '../dist/index.js'
+import subsetty from './index.js'
 import fs from 'fs'
 import { expect } from 'chai'
 
