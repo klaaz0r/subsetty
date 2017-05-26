@@ -34,7 +34,7 @@ var logger = _bunyan2['default'].createLogger({ name: 'subsetty', level: level }
 
 function subset(fontPath, text) {
   return new _bluebird2['default'](function (resolve, reject) {
-    _pythonShell2['default'].run('./scripts/subset.py', { args: [fontPath, text] }, function (err, results) {
+    _pythonShell2['default'].run('scripts/subset.py', { args: [fontPath, text] }, function (err, results) {
       if (err) {
         logger.error({ err: err }, 'error subsetting font');
         return reject(err);
@@ -48,12 +48,11 @@ function subset(fontPath, text) {
 
 function convert(fontPath, fontType) {
   return new _bluebird2['default'](function (resolve, reject) {
-    _pythonShell2['default'].run('./scripts/convert.py', { args: [fontPath, fontType] }, function (err, results) {
+    _pythonShell2['default'].run('scripts/convert.py', { args: [fontPath, fontType] }, function (err, results) {
       if (err) {
         logger.error({ err: err }, 'error subsetting font');
         return reject(err);
       } else {
-        console.log(results);
         logger.debug({ base64: results[0] }, 'got result from python');
         resolve(results[0]);
       }

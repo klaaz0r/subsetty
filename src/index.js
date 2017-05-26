@@ -14,7 +14,7 @@ const logger = bunyan.createLogger({ name: 'subsetty', level });
 
 function subset(fontPath, text) {
   return new Promise(function(resolve, reject) {
-    Python.run('scripts/subset.py', { args: [fontPath, text] }, (err, results) => {
+    Python.run('subset.py', { scriptPath: 'scripts', args: [fontPath, text] }, (err, results) => {
       if (err) {
         logger.error({ err }, 'error subsetting font')
         return reject(err)
@@ -28,7 +28,7 @@ function subset(fontPath, text) {
 
 function convert(fontPath, fontType) {
   return new Promise(function(resolve, reject) {
-    Python.run('scripts/convert.py', { args: [fontPath, fontType] }, (err, results) => {
+    Python.run('convert.py', { scriptPath: 'scripts', args: [fontPath, fontType] }, (err, results) => {
       if (err) {
         logger.error({ err }, 'error subsetting font')
         return reject(err)
