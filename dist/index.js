@@ -34,6 +34,8 @@ var logger = _bunyan2['default'].createLogger({ name: 'subsetty', level: level }
 
 var scriptPath = __dirname.replace('dist', '').replace('src', '') + 'scripts';
 
+logger.info({ scriptPath: scriptPath }, 'script path');
+
 function subset(fontPath, text) {
   return new _bluebird2['default'](function (resolve, reject) {
     _pythonShell2['default'].run('subset.py', { scriptPath: scriptPath, args: [fontPath, text] }, function (err, results) {

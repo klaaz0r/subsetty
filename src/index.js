@@ -13,6 +13,8 @@ const logger = bunyan.createLogger({ name: 'subsetty', level });
 
 const scriptPath = __dirname.replace('dist', '').replace('src', '') + 'scripts'
 
+logger.info({ scriptPath }, 'script path')
+
 function subset(fontPath, text) {
   return new Promise(function(resolve, reject) {
     Python.run('subset.py', { scriptPath, args: [fontPath, text] }, (err, results) => {
