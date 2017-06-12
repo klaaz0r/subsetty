@@ -3,9 +3,9 @@ from fontTools.ttLib import TTFont, newTable
 from fontTools.subset import Subsetter, Options, save_font
 from cu2qu.pens import Cu2QuPen
 from fontTools.pens.ttGlyphPen import TTGlyphPen
-import uuid
-import os
-import sys
+import uuid, os, sys, logging
+
+logging.disable(sys.maxint)
 
 # default approximation error, measured in UPEM
 MAX_ERR = 1.0
@@ -19,7 +19,7 @@ REVERSE_DIRECTION = True
 
 def convertFont(fontPath, fontType):
     options = Options()
-    
+
     tmpOutputTtf = tmpFileName(".ttf")
     tmpOutputWoff = tmpFileName(".woff")
 

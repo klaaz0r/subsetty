@@ -1,13 +1,13 @@
 {
   "name": "subsetty",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "description": "subset fonts in node with fonttools",
   "main": "dist/index.js",
   "scripts": {
     "prebuild": "rm -rf dist && mkdir dist",
     "postinstall": "mkdir -p tmp && pip install -r requirements.txt",
     "build": "babel src/index.js -o dist/index.js",
-    "test": "DEBUG_SUBSETTY=10 mocha src/index.test.js -w --compilers js:babel/register | bunyan"
+    "test": "mocha src/index.test.js -w --compilers js:babel/register | bunyan"
   },
   "repository": {
     "type": "git",
@@ -28,8 +28,7 @@
     "bluebird": "^3.4.7",
     "bunyan": "^1.8.5",
     "node-uuid": "^1.4.7",
-    "python-shell": "^0.4.0",
-    "ramda": "^0.23.0"
+    "python-shell": "^0.4.0"
   },
   "devDependencies": {
     "babel": "5.8.21",

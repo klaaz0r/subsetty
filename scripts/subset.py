@@ -1,8 +1,8 @@
 from fontTools.ttLib import TTFont
 from fontTools.subset import Subsetter, Options, save_font
-import uuid
-import os
-import sys
+import uuid, sys, os, logging
+
+logging.disable(sys.maxint)
 
 def subsetFont(fontPath, subset):
     tmpOutputFontName = os.path.dirname(os.path.abspath( __file__ )) + "/tmp/" + str(uuid.uuid4()) + ".woff"

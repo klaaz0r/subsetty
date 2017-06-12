@@ -16,12 +16,12 @@ describe('font testing', function() {
       subsetty.subset('fonts/opensans.ttf', text)
         .then(font => cb())
     })
-
+    
     it('convert font to woff', function(cb) {
         subsetty.convert('fonts/opensans.ttf', 'ttf')
           .then(font => cb())
       })
-      .timeout(6000)
-
+      .timeout(99000)
   })
+
 })
